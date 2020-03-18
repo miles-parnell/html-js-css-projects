@@ -1,5 +1,4 @@
 let colors = genRGB(6);
-
 let squares = document.querySelectorAll(".square");
 let pickedColor = pickColor();
 let colorDisplay = document.getElementById("color-display");
@@ -9,18 +8,36 @@ let resetButton = document.querySelector("#reset");
 let softBtn = document.querySelector("#soft-btn");
 let hardBtn = document.querySelector("#hard-btn");
 
+//mode button for easy
 softBtn.addEventListener("click", function(){
     hardBtn.classList.remove("selected");
     softBtn.classList.add("selected");
-    
+    colors = genRGB(3);
+    pickedColor = pickColor();
     colorDisplay.textContent = pickedColor;
+    for(let i=0;i<squares.length;i++){
+        if(colors[i]){
+            squares[i].style.backgroundColor = colors[i];
+        }else{
+            squares[i].style.display = "none";
+        }
+    }   
 });
+
+//mode button for hard
 hardBtn.addEventListener("click", function(){
     softBtn.classList.remove("selected");
     hardBtn.classList.add("selected");
-    
+    colors = genRGB(3);
+    pickedColor = pickColor();
+    colorDisplay.textContent = pickedColor;
+    for(let i=0;i<squares.length;i++){
+        squares[i].style.backgroundColor = colors[i];
+        squares[i].style.display = "block";
+    }    
 });
 
+//making reset button
 resetButton.addEventListener("click", function(){
     //generate all new colors
     colors = genRGB(6);
@@ -30,13 +47,16 @@ resetButton.addEventListener("click", function(){
     colorDisplay.textContent = pickedColor;
     h1.style.backgroundColor = "#232323";
     resetButton.textContent = "New Colors";
+    msgDisplay.textContent = "";
     //change the color of all the squares
     for(let i=0;i<squares.length;i++){
         squares[i].style.backgroundColor = colors[i];
     }
 });
 
+//adding the color to guess to the div
 colorDisplay.textContent = pickedColor;
+
 //adding init colors to the squares
 for(let i = 0; i < squares.length; i++){
     squares[i].style.backgroundColor = colors[i];
@@ -61,11 +81,11 @@ function winningColors(color){
     //loop through all the squares
     for(let i=0;i<squares.length;i++){
     //change all colors to match the picked color
-    squares[i].style.backgroundColor = color;   
+        squares[i].style.backgroundColor = color;   
     }
    
 }
-
+//returns a random color from the colors array
 function pickColor(){
     //store a random index in a var
     let random = Math.floor(Math.random() * colors.length);
@@ -73,6 +93,7 @@ function pickColor(){
     return colors[random];
 }
 
+//generates a list of rgb colors based on the num var
 function genRGB(num){
     //make arr
     let arr = [];
@@ -85,6 +106,7 @@ function genRGB(num){
     return arr;
 }
 
+//this function makes a usable rgb string to make a color
 function randomColor(){
     //pick "red" from 0 -> 255
     let red = Math.floor(Math.random()*256);
