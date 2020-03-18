@@ -1,4 +1,5 @@
 let colors = genRGB(6);
+let numSquares = 6;
 let squares = document.querySelectorAll(".square");
 let pickedColor = pickColor();
 let colorDisplay = document.getElementById("color-display");
@@ -12,7 +13,8 @@ let hardBtn = document.querySelector("#hard-btn");
 softBtn.addEventListener("click", function(){
     hardBtn.classList.remove("selected");
     softBtn.classList.add("selected");
-    colors = genRGB(3);
+    numSquares = 3;
+    colors = genRGB(numSquares);
     pickedColor = pickColor();
     colorDisplay.textContent = pickedColor;
     for(let i=0;i<squares.length;i++){
@@ -28,7 +30,8 @@ softBtn.addEventListener("click", function(){
 hardBtn.addEventListener("click", function(){
     softBtn.classList.remove("selected");
     hardBtn.classList.add("selected");
-    colors = genRGB(3);
+    numSquares = 6;
+    colors = genRGB(numSquares);
     pickedColor = pickColor();
     colorDisplay.textContent = pickedColor;
     for(let i=0;i<squares.length;i++){
@@ -40,7 +43,7 @@ hardBtn.addEventListener("click", function(){
 //making reset button
 resetButton.addEventListener("click", function(){
     //generate all new colors
-    colors = genRGB(6);
+    colors = genRGB(numSquares);
     //pick a new color from arr
     pickedColor = pickColor();
     //change colorDisplay to match new picked color
