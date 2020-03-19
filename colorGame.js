@@ -1,3 +1,5 @@
+
+//defining all variables
 let colors = genRGB(6);
 let numSquares = 6;
 let squares = document.querySelectorAll(".square");
@@ -6,56 +8,44 @@ let colorDisplay = document.getElementById("color-display");
 let msgDisplay = document.querySelector("#msg");
 let h1 = document.querySelector("h1");
 let resetButton = document.querySelector("#reset");
-let softBtn = document.querySelector("#soft-btn");
-let hardBtn = document.querySelector("#hard-btn");
+let modeButtons = document.querySelectorAll(".mode");
 
-//mode button for easy
-softBtn.addEventListener("click", function(){
-    hardBtn.classList.remove("selected");
-    softBtn.classList.add("selected");
-    numSquares = 3;
+
+//looping through mode buttons to add function
+for(let i=0;i<modeButtons.length;i++){
+    modeButtons[i].addEventListener("click", function(){
+        //adds highlight to selected button
+        modeButtons[0].classList.remove("selected");
+        modeButtons[1].classList.remove("selected");
+        this.classList.add("selected");
+        //picks number of squares to show depending on the mode
+        this.textContent === "Easy" ? numSquares = 3: numSquares = 6;
+        // if this ^ is=to this ^  do this^^   else ^ do this ^^
+        reset();
+    });
+}
+function reset(){
+    //adds rgb profiles to the "colors" array
     colors = genRGB(numSquares);
+    //picks a color from colors array for the player to guess
     pickedColor = pickColor();
+    //updates header to show the new picked color
     colorDisplay.textContent = pickedColor;
+    resetButton.textContent = "New Colors";
+    msgDisplay.textContent = "";
+    //adds new colors to the the squares
     for(let i=0;i<squares.length;i++){
         if(colors[i]){
+            squares[i].style.display = "block";
             squares[i].style.backgroundColor = colors[i];
         }else{
             squares[i].style.display = "none";
         }
-    }   
-});
-
-//mode button for hard
-hardBtn.addEventListener("click", function(){
-    softBtn.classList.remove("selected");
-    hardBtn.classList.add("selected");
-    numSquares = 6;
-    colors = genRGB(numSquares);
-    pickedColor = pickColor();
-    colorDisplay.textContent = pickedColor;
-    for(let i=0;i<squares.length;i++){
-        squares[i].style.backgroundColor = colors[i];
-        squares[i].style.display = "block";
-    }    
-});
-
-//making reset button
-resetButton.addEventListener("click", function(){
-    //generate all new colors
-    colors = genRGB(numSquares);
-    //pick a new color from arr
-    pickedColor = pickColor();
-    //change colorDisplay to match new picked color
-    colorDisplay.textContent = pickedColor;
-    h1.style.backgroundColor = "steelblue";
-    resetButton.textContent = "New Colors";
-    msgDisplay.textContent = "";
-    //change the color of all the squares
-    for(let i=0;i<squares.length;i++){
-        squares[i].style.backgroundColor = colors[i];
     }
-});
+    h1.style.backgroundColor = "steelblue";
+}
+//adding reset function to the reset button
+resetButton.addEventListener("click", reset);
 
 //adding the color to guess to the div
 colorDisplay.textContent = pickedColor;
@@ -85,17 +75,15 @@ function winningColors(color){
     for(let i=0;i<squares.length;i++){
     //change all colors to match the picked color
         squares[i].style.backgroundColor = color;   
-    }
-   
-}
+    }  
+};
 //returns a random color from the colors array
 function pickColor(){
     //store a random index in a var
     let random = Math.floor(Math.random() * colors.length);
     //return that index color 
     return colors[random];
-}
-
+};
 //generates a list of rgb colors based on the num var
 function genRGB(num){
     //make arr
@@ -107,8 +95,7 @@ function genRGB(num){
     }
     //return an arr with num ammount of colors
     return arr;
-}
-
+};
 //this function makes a usable rgb string to make a color
 function randomColor(){
     //pick "red" from 0 -> 255
@@ -119,4 +106,4 @@ function randomColor(){
     let blue = Math.floor(Math.random()*256);
     //construct string to match rgb format
     return "rgb("+red+", "+green+", "+blue+")";
-}
+};
